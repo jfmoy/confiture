@@ -1,0 +1,36 @@
+// Colors - http://www.colourlovers.com/palette/92095/Giant_Goldfish (Manekineko)
+$aoi: #69D2E7;
+$pondwater: #A7DBD8;
+$beach: #E0E4CC;
+$goldfish: #F38630;
+$foodpills: #FA6900;
+
+
+@mixin fullscreen() {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+@mixin horizontal-translation($offset) {
+  transform: translate3d($offset, 0px, 0px);
+  -webkit-transform: translate3d($offset, 0px, 0px);
+  -ms-transform: translate3d($offset, 0px, 0px);
+  -o-transform: translate3d($offset, 0px, 0px);
+}
+
+@mixin transition-none() {
+  transition: none;
+  -webkit-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+}
+
+@mixin transition($property, $duration, $function, $timing) {
+  transition: $property $duration $function $timing;
+  -webkit-transition: $property $duration $function $timing;
+  -ms-transition: $property $duration $function $timing;
+  -otransition: $property $duration $function $timing;
+}

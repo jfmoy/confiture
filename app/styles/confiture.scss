@@ -1,0 +1,42 @@
+@import 'base';
+
+.touch {
+	@include fullscreen();
+}
+
+.page-container {
+	@include fullscreen();
+	overflow: hidden;
+}
+
+.page {
+	@include fullscreen();
+	@include horizontal-translation(100%);
+	@include transition(all, 400ms, ease, 0);
+	z-index: 1;
+	opacity: 1;
+}
+
+.page.show-page {
+	@include horizontal-translation(0px);
+	z-index: 5;
+	opacity: 1;
+}
+
+.playlist-header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+
+	height: 3rem;
+
+	background: $aoi;
+}
+
+.playlist-header h1 {
+	color: $goldfish;
+
+	line-height: 3rem;
+	margin-left: 1rem;
+}
