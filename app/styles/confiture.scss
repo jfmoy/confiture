@@ -32,11 +32,77 @@
 	height: 3rem;
 
 	background: $aoi;
+    border-bottom: 0.3rem solid $beach;
 }
 
 .playlist-header h1 {
-	color: $goldfish;
+    @include nomargins();
+	color: white;
 
 	line-height: 3rem;
 	margin-left: 1rem;
+}
+
+section.playlist-container {
+    position: absolute;
+    top: 3.3rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    overflow-y: auto;
+}
+
+ul.playlist-content {
+    @include nomargins();
+    @include nopadding();
+
+    list-style: none;
+}
+
+li.song {
+    position: relative;
+
+    width: 100%;
+    height: 5rem;
+
+    background: lighten($aoi, 30%);
+    border-bottom: 0.1rem solid $aoi;
+}
+
+li.song span {
+    display: block;
+}
+
+.song-image {
+    display: inline-block;
+    float: left;
+
+    width: 4rem;
+    height: 4rem;
+
+    border-radius: 0.5rem;
+
+    margin: 0.5rem;
+
+    background-size: cover;
+}
+
+.song-info {
+    display: inline-block;
+    float: left;
+
+    height: 4rem;
+
+    padding: 0.5rem;
+}
+
+.song-info-artist {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.song-info-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
 }

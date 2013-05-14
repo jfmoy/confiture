@@ -34,3 +34,12 @@ $foodpills: #FA6900;
   -ms-transition: $property $duration $function $timing;
   -otransition: $property $duration $function $timing;
 }
+
+@mixin nomargins() {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
+@mixin nopadding() {
+    -webkit-padding-start: 0;
+}
