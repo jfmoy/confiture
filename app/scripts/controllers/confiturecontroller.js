@@ -8,6 +8,7 @@ define([
 		initialize: function (options) {
 			this.container = options.container;
             this._initializeControllers();
+            this._insertPages();
 		},
 
 		playlists: function () {
@@ -17,6 +18,10 @@ define([
 
         _initializeControllers: function () {
             this.playlistController = new PlaylistController();
+        },
+
+        _insertPages: function () {
+            //TODO: Actually insert the pages.
         }
 
 	});
