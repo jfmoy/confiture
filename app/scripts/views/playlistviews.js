@@ -35,6 +35,14 @@ function (Marionette) {
 
 	});
 
+    var PlaylistHeaderView = Marionette.ItemView.extend({
+
+        className: "pure-menu pure-menu-open pure-menu-horizontal",
+
+        template: "playlist_header"
+
+    });
+
     return {
         PlaylistLayout: PlaylistLayout,
         PlaylistView: PlaylistView,

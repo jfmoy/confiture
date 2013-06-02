@@ -7,22 +7,21 @@ define([
 
 		initialize: function (options) {
 			this.container = options.container;
-            this._initializeControllers();
-            this._insertPages();
+            this.controllers = {};
 		},
 
-		playlists: function () {
-			console.log('[Playlists] Accessing Route');
-            this.playlistController.show(this.container);
+		playlist: function (type) {
+			console.log('[Playlists] Showing Playlist: ', type);
+
+            this._createPlaylistController();
+            this.controllers.playlist.show(this.container);
 		},
 
-        _initializeControllers: function () {
-            this.playlistController = new PlaylistController();
+        _createPlaylistController: function () {
+            if (!this.controllers.playlist) {
+                this.controllers.playlist = new PlaylistController();
+            }
         },
-
-        _insertPages: function () {
-            //TODO: Actually insert the pages.
-        }
 
 	});
 

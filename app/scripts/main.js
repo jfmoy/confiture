@@ -49,11 +49,12 @@ require([
 
     var ConfitureRouter = Marionette.AppRouter.extend({
         appRoutes: {
-            '' : 'playlists'
+            'playlist/:type' : ''
+            '' : 'playlist'
         }
     });
 
-    var confiture = new Marionette.Application({
+    playlist confiture = new Marionette.Application({
         root: '/'
     });
 
