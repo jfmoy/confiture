@@ -43,3 +43,10 @@ $foodpills: #FA6900;
 @mixin nopadding() {
     -webkit-padding-start: 0;
 }
+
+@mixin ellipsis {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}

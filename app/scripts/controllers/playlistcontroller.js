@@ -1,36 +1,44 @@
 define([
 	'marionette',
+    'controllers/basecontroller',
 	'views/playlistviews',
 	'models/playlist'
 ],
-function(Marionette, Views, Playlist) {
+function(Marionette, BaseController, Views, Playlist) {
 
-	return Marionette.Controller.extend({
+	return BaseController.extend({
 
         initialize: function (options) {
-            this.region = options.region;
-            this.playlist = new Playlist.Playlist();
+            BaseController.prototype.initialize.call(this, options);
+            this.playlist = options.playlist || new Playlist.Playlist();
+        },
+
+        setCategory: function (category) {
+            var playlistCat = category || "popular";
+            this.playlist.setCategory(playlistCat);
+            this.playlist.fetch();
         },
 
 		show: function () {
-            this._closeLayout();
-            this.layout = this._getLayout();
-			this.region.show(this.layout);
-            defaultPlaylist.fetch();
+            BaseController.prototype.show.call(this);
+            this.playlist.fetch();
 		},
 
-		getLayout_: function () {
-			var layout = new Views.PlaylistLayout();
-			this.listenTo(this.region, 'show', function() {
+		getLayout: function () {
+            var layout = new Views.PlaylistLayout();
+			this.listenTo(layout, 'show', function() {
 				console.log('[Playlist Controller] Showing Playlist Views');
+                layout.header.show(this._getPlaylistHeaderView());
 				layout.content.show(this._getPlaylistView());
-				layout.$el.addClass('show-page');
 			}, this);
-			return layout;
+
+            return layout;
 		},
 
         _getPlaylistHeaderView: function () {
-            return new Views.PlaylistHeaderView();
+            return new Views.PlaylistHeaderView({
+                selected: this.playlist.category || 'popular'
+            });
         },
 
 		_getPlaylistView: function () {

@@ -8,7 +8,14 @@ define([
 
 	var Playlist = Backbone.Collection.extend({
 
-		url: 'http://api.thisismyjam.com/1/explore/popular.json',
+        setCategory: function (category) {
+            this.category = category;
+        },
+
+		url: function() {
+            var category = this.category || 'popular';
+            return 'http://api.thisismyjam.com/1/explore/' + category + '.json'
+        },
 
 		model: Song,
 

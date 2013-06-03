@@ -49,24 +49,28 @@ require([
 
     var ConfitureRouter = Marionette.AppRouter.extend({
         appRoutes: {
-            'playlist/:type' : ''
+            'playlist/:type' : 'playlist',
             '' : 'playlist'
         }
     });
 
-    playlist confiture = new Marionette.Application({
+    var confiture = new Marionette.Application({
         root: '/'
     });
 
     confiture.addRegions({
-        container: '.pages-container'
+        firstPanel: '.page-first-panel',
+        secondPanel: '.page-second-panel'
     });
 
     confiture.addInitializer(confitureInitializer);
     confiture.addInitializer(function () {
         this.router = new ConfitureRouter({
             controller: new ConfitureController({
-                container: confiture.container
+                regions: {
+                    firstPanel: confiture.firstPanel,
+                    secondPanel: confiture.secondPanel
+                }
             })
         });
 
