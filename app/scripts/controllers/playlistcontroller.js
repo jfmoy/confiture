@@ -14,9 +14,10 @@ function(Marionette, BaseController, Views, Playlist) {
         },
 
         setCategory: function (category) {
+            this.playlist.reset();
+
             var playlistCat = category || "popular";
             this.playlist.setCategory(playlistCat);
-            this.playlist.fetch();
         },
 
 		show: function () {

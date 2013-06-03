@@ -25,6 +25,12 @@ function (Marionette) {
 
 	});
 
+    var LoadingView = Marionette.ItemView.extend({
+      template: "playlist_empty",
+
+      className: "loading-playlist"
+    });
+
 	var PlaylistView = Marionette.CollectionView.extend({
 
 		tagName: 'ul',
@@ -33,8 +39,7 @@ function (Marionette) {
 
 		itemView: SongView,
 
-        // emptyView: 'playlist_empty'
-
+        emptyView: LoadingView
 	});
 
     var PlaylistHeaderView = Marionette.ItemView.extend({

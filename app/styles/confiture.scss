@@ -71,6 +71,16 @@ ul.playlist-content {
     @include nopadding();
 
     list-style-type: none;
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+}
+
+.loading-playlist {
+    position: absolute;
+    top: 40%;
+    left: 40%;
 }
 
 li.song {
