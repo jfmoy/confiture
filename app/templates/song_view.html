@@ -1,5 +1,11 @@
-<div class="song-image" style="background-image: url('<%= jamvatarSmall %>')"></div>
+<% if (songUrl) { %>
+    <a href="<%- songUrl %>" target="_blank" class="song-url">
+<% } %>
+<div class="song-image" style="background-image: url('<%= model.jamvatarSmall %>')"></div>
 <div class="song-info">
-	<span class='song-info-title'><%= title %></span>
-	<span class='song-info-artist'><%= artist %></span>
+	<span class='song-info-title'><%= model.title %></span>
+	<span class='song-info-artist'><%= model.artist %></span>
 </div>
+<% if (songUrl) { %>
+    </a>
+<% } %>

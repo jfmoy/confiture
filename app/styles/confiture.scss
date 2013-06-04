@@ -91,6 +91,10 @@ li.song {
 
     background: lighten($beach, 30%);
     border-bottom: 0.1rem solid $aoi;
+
+    &:active {
+        background-color: lighten($aoi, 20%);
+    }
 }
 
 li.song span {
@@ -134,5 +138,11 @@ li.song span {
     @include ellipsis();
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
+}
 
+.song-url {
+    color: black;
+
+    width: 100%;
+    height: 100%;
 }

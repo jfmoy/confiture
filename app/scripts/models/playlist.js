@@ -8,6 +8,8 @@ define([
 
 	var Playlist = Backbone.Collection.extend({
 
+        model: Song,
+
         setCategory: function (category) {
             this.category = category;
         },
@@ -16,8 +18,6 @@ define([
             var category = this.category || 'popular';
             return 'http://api.thisismyjam.com/1/explore/' + category + '.json'
         },
-
-		model: Song,
 
 		/*
 		*	Using This Is My Jam, the songs are stored in the jams

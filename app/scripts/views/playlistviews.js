@@ -21,7 +21,16 @@ function (Marionette) {
 
         tagName: 'li',
 
-        className: 'song'
+        className: 'song',
+
+        serializeData: function () {
+            var viaUrl = this.model.get("viaUrl");
+            var songUrl = (viaUrl && viaUrl !== "User uploaded") ? viaUrl : null;
+            return {
+                songUrl: songUrl,
+                model: this.model.toJSON()
+            };
+        }
 
 	});
 
