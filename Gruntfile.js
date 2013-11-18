@@ -18,7 +18,8 @@ module.exports = function (grunt) {
     // configurable paths
     var yeomanConfig = {
         app: 'app',
-        dist: 'dist'
+        dist: 'dist',
+        tmp: '.tmp'
     };
 
     grunt.initConfig({
@@ -74,7 +75,8 @@ module.exports = function (grunt) {
                     middleware: function (connect) {
                         return [
                             mountFolder(connect, '.tmp'),
-                            mountFolder(connect, 'test')
+                            mountFolder(connect, 'test'),
+                            mountFolder(connect, 'app'),
                         ];
                     }
                 }
@@ -95,6 +97,8 @@ module.exports = function (grunt) {
             }
         },
         clean: {
+            docs: ['docs/*'],
+            builds: ['builds/*'],
             dist: ['.tmp', '<%= yeoman.dist %>/*'],
             server: '.tmp'
         },
@@ -108,14 +112,6 @@ module.exports = function (grunt) {
                 '!<%= yeoman.app %>/scripts/vendor/*',
                 'test/spec/{,*/}*.js'
             ]
-        },
-        mocha: {
-            all: {
-                options: {
-                    run: true,
-                    urls: ['http://localhost:<%= connect.options.port %>/index.html']
-                }
-            }
         },
         coffee: {
             dist: {
@@ -257,10 +253,77 @@ module.exports = function (grunt) {
             },
             compile: {
                 files: {
-                    '.tmp/scripts/templates.js': ['<%= yeoman.app %>/scripts/templates/*.ejs']
+                    '.tmp/scripts/templates.js': ['<%= yeoman.app %>/templates/*.html']
                 }
             }
-        }
+        },
+        yuidoc: {
+            compile: {
+                name: 'Confiture',
+                description: 'Simplistic "This Is My Jam" HTML5 Client',
+                version: '0.0.1',
+                url: 'https://github.com/jfmoy/confiture',
+                options: {
+                    paths: 'app/scripts',
+                    outdir: 'docs/'
+                }
+            }
+        },
+        replace: {
+            test: {
+                options: {
+                    variables: {
+                        'stop here in test builds' : 'return false;'
+                    },
+                    prefix: '//@@'
+                },
+                files: {
+                    '<%= yeoman.tmp %>/scripts/main.js': ['<%= yeoman.app %>/scripts/main.js']
+                }
+            }
+        },
+        jscover: {
+            options: {
+                inputDirectory: '<%= yeoman.tmp %>/clean_scripts',
+                outputDirectory: '<%= yeoman.tmp%>/scripts'
+            }
+        },
+        removelogging: {
+            test: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= yeoman.app%>/scripts',
+                        src: ['**/*.js'],
+                        dest: '<%= yeoman.tmp %>/clean_scripts'
+                    }
+                ]
+            }
+        },
+        mocha_phantomjs: {
+            test: {
+                options: {
+                    reporter: 'tap',
+                    output: 'builds/unit-result.tap',
+                    log: false,
+                    urls: ['http://localhost:<%= connect.options.port %>/index.html']
+                }
+            },
+            coverage: {
+                options: {
+                    reporter: 'json-cov',
+                    output: 'builds/coverage-result.json',
+                    log: false,
+                    urls: ['http://localhost:<%= connect.options.port %>/index.html']
+                }
+            },
+            all: {
+                options: {
+                    log: true,
+                    urls: ['http://localhost:<%= connect.options.port %>/index.html']
+                }
+            }
+        },
     });
 
     grunt.renameTask('regarde', 'watch');
@@ -287,14 +350,33 @@ module.exports = function (grunt) {
         ]);
     });
 
+    grunt.registerTask('docs', [
+        'clean:docs',
+        'yuidoc'
+    ]);
+
     grunt.registerTask('test', [
         'clean:server',
         'coffee',
         'createDefaultTemplate',
         'jst',
         'compass',
+        'replace:test',
         'connect:test',
-        'mocha'
+        'mocha_phantomjs:test'
+    ]);
+
+    grunt.registerTask('coverage', [
+        'clean:server',
+        'coffee',
+        'compass',
+        'replace:test',
+        'removelogging:test',
+        'createDefaultTemplate',
+        'jscover',
+        'jst',
+        'connect:test',
+        'mocha_phantomjs:coverage'
     ]);
 
     grunt.registerTask('build', [

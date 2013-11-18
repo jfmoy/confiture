@@ -77,6 +77,8 @@ require([
         Backbone.history.start();
     });
 
+    //@@stop here in test builds
+
     confiture.start();
 
     return confiture;

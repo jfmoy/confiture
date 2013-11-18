@@ -10,6 +10,10 @@ define([
 
         model: Song,
 
+        initialize: function () {
+            this.category = 'popular';
+        },
+
         setCategory: function (category) {
             this.category = category;
         },
