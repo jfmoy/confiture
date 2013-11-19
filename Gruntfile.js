@@ -373,6 +373,17 @@ module.exports = function (grunt) {
                 {expand: true, cwd: '<%= yeoman.dist %>', src: ['**'], dest: ''}
               ]
             }
+        },
+        autoprefixer: {
+            options: {
+                browsers: ['last 2 version', 'ie 8']
+            },
+             dist: {
+                  expand: true,
+                  flatten: true,
+                  src: '<%= yeoman.dist %>/styles/main.css', // -> src/css/file1.css, src/css/file2.css
+                  dest: '<%= yeoman.dist %>/styles' // -> dest/css/file1.css, dest/css/file2.css
+            }
         }
     });
 
@@ -454,6 +465,25 @@ module.exports = function (grunt) {
         'jst',
         'connect:test',
         'mocha_phantomjs:coverage'
+    ]);
+
+    grunt.registerTask('build-auto', [
+        'clean:dist',
+        'coffee',
+        'createDefaultTemplate',
+        'jst',
+        'compass:dist',
+        'useminPrepare',
+        'requirejs',
+        'imagemin',
+        'htmlmin',
+        'concat',
+        'cssmin',
+        'uglify',
+        'copy',
+        'usemin',
+        'replace:dist',
+        'autoprefixer:dist'
     ]);
 
     grunt.registerTask('build', [

@@ -30,7 +30,8 @@
     "grunt-replace": "~0.5.1",
     "grunt-remove-logging": "~0.1.1",
     "grunt-connect-proxy": "~0.1.6",
-    "grunt-contrib-compress": "~0.5.2"
+    "grunt-contrib-compress": "~0.5.2",
+    "grunt-autoprefixer": "~0.4.1"
   },
   "engines": {
     "node": ">=0.8.0"
