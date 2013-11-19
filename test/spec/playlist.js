@@ -21,5 +21,19 @@ define([
 	    	playlist.setCategory('new_category');
 			expect(playlist.category).to.be.eql('new_category');
 	    });
+
+        it('Playlist fetching', function (done) {
+            var playlist = new Models.Playlist();
+            playlist.fetch({
+                success: function () {
+                    expect(playlist.length > 0).to.be.eql(true);
+                    done();
+                },
+                error: function () {
+                    console.log("pouf");
+                    done("Failed to fetch the playlist");
+                }
+            })
+        });
 	});
 });

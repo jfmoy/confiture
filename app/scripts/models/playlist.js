@@ -19,8 +19,7 @@ define([
         },
 
 		url: function() {
-            var category = this.category || 'popular';
-            return 'http://api.thisismyjam.com/1/explore/' + category + '.json'
+            return 'http://api.thisismyjam.com/1/explore/' + this.category + '.json'
         },
 
 		/*

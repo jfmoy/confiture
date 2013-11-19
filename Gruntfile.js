@@ -1,5 +1,7 @@
 'use strict';
 var lrSnippet = require('grunt-contrib-livereload/lib/utils').livereloadSnippet;
+var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+
 var mountFolder = function (connect, dir) {
     return connect.static(require('path').resolve(dir));
 };
@@ -59,11 +61,21 @@ module.exports = function (grunt) {
                 // change this to '0.0.0.0' to access the server from outside
                 hostname: 'localhost'
             },
+            proxies: [
+              {
+                context: '/1/',
+                host: 'api.thisismyjam.com',
+                port: 80,
+                https: false,
+                changeOrigin: true
+              }
+            ],
             livereload: {
                 options: {
                     middleware: function (connect) {
                         return [
                             lrSnippet,
+                            proxySnippet,
                             mountFolder(connect, '.tmp'),
                             mountFolder(connect, 'app')
                         ];
@@ -74,6 +86,7 @@ module.exports = function (grunt) {
                 options: {
                     middleware: function (connect) {
                         return [
+                            proxySnippet,
                             mountFolder(connect, '.tmp'),
                             mountFolder(connect, 'test'),
                             mountFolder(connect, 'app'),
@@ -85,6 +98,7 @@ module.exports = function (grunt) {
                 options: {
                     middleware: function (connect) {
                         return [
+                            proxySnippet,
                             mountFolder(connect, 'dist')
                         ];
                     }
@@ -339,6 +353,7 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
+            'configureProxies',
             'coffee:dist',
             'createDefaultTemplate',
             'jst',
@@ -355,8 +370,21 @@ module.exports = function (grunt) {
         'yuidoc'
     ]);
 
+    grunt.registerTask('browser-test', [
+        'clean:server',
+        'configureProxies',
+        'coffee',
+        'createDefaultTemplate',
+        'jst',
+        'compass',
+        'replace:test',
+        'connect:test',
+        'watch'
+    ]);
+
     grunt.registerTask('test', [
         'clean:server',
+        'configureProxies',
         'coffee',
         'createDefaultTemplate',
         'jst',
@@ -368,6 +396,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('coverage', [
         'clean:server',
+        'configureProxies',
         'coffee',
         'compass',
         'replace:test',

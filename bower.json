@@ -1,6 +1,6 @@
 {
   "name": "confiture",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "dependencies": {
     "backbone.marionette": "~1.0.1",
     "backbone.wreqr": "~0.2.0",
@@ -12,5 +12,6 @@
     "underscore-amd": "~1.4.4",
     "modernizr": "~2.6.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+  }
 }
