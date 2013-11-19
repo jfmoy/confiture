@@ -13,5 +13,6 @@
     "modernizr": "~2.6.2"
   },
   "devDependencies": {
+    "almond": "~0.2.7"
   }
 }

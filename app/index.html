@@ -11,8 +11,12 @@
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.1.0/pure-min.css">
+
+        <!-- build:css styles/main.css -->
         <link rel="stylesheet" href="styles/confiture.css">
         <link rel="stylesheet" href="styles/spinner.css">
+        <!-- endbuild -->
+
         <!-- build:js scripts/vendor/modernizr.js -->
         <script src="bower_components/modernizr/modernizr.js"></script>
         <!-- endbuild -->
@@ -35,8 +39,6 @@
             s.parentNode.insertBefore(g,s)}(document,'script'));
         </script>
 
-        <!-- build:js scripts/main.js -->
-        <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
-        <!-- endbuild -->
+        <!-- @@Replace that by almond main script --><script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
 </body>
 </html>

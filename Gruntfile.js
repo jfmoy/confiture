@@ -169,12 +169,17 @@ module.exports = function (grunt) {
             dist: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
-                    // `name` and `out` is set by grunt-usemin
+                    name: '../bower_components/almond/almond',
+                    almond: true,
+                    out: 'dist/scripts/main.js',
                     baseUrl: 'app/scripts',
                     optimize: 'none',
                     paths: {
                         'templates': '../../.tmp/scripts/templates'
                     },
+                    include: ['main'],
+                    insertRequire: ['main'],
+                    mainConfigFile: 'app/scripts/main.js',
                     // TODO: Figure out how to make sourcemaps work with grunt-usemin
                     // https://github.com/yeoman/grunt-usemin/issues/30
                     //generateSourceMaps: true,
@@ -294,6 +299,20 @@ module.exports = function (grunt) {
                 files: {
                     '<%= yeoman.tmp %>/scripts/main.js': ['<%= yeoman.app %>/scripts/main.js']
                 }
+            },
+            dist: {
+                options: {
+                      patterns: [
+                        {
+                          match: '<script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>',
+                          replacement: '<script src="scripts/main.js"></script>'
+                        }
+                      ],
+                      prefix: '<!-- @@Replace that by almond main script -->'
+                },
+                files: [
+                  {expand: true, flatten: true, src: ['<%= yeoman.dist %>/index.html'], dest: '<%= yeoman.dist %>'}
+                ]
             }
         },
         jscover: {
@@ -323,6 +342,12 @@ module.exports = function (grunt) {
                     urls: ['http://localhost:<%= connect.options.port %>/index.html']
                 }
             },
+            spec: {
+                options: {
+                    log: false,
+                    urls: ['http://localhost:<%= connect.options.port %>/index.html']
+                }
+            },
             coverage: {
                 options: {
                     reporter: 'json-cov',
@@ -338,6 +363,17 @@ module.exports = function (grunt) {
                 }
             }
         },
+        compress: {
+            dist: {
+              options: {
+                archive: 'builds/confiture-<%= grunt.template.date(new Date().getTime(), "yyyy-mm-dd") %>.zip',
+                mode: 'zip'
+              },
+              files: [
+                {expand: true, cwd: '<%= yeoman.dist %>', src: ['**'], dest: ''}
+              ]
+            }
+        }
     });
 
     grunt.renameTask('regarde', 'watch');
@@ -394,6 +430,18 @@ module.exports = function (grunt) {
         'mocha_phantomjs:test'
     ]);
 
+    grunt.registerTask('spec', [
+        'clean:server',
+        'configureProxies',
+        'coffee',
+        'createDefaultTemplate',
+        'jst',
+        'compass',
+        'replace:test',
+        'connect:test',
+        'mocha_phantomjs:spec'
+    ]);
+
     grunt.registerTask('coverage', [
         'clean:server',
         'configureProxies',
@@ -422,7 +470,9 @@ module.exports = function (grunt) {
         'cssmin',
         'uglify',
         'copy',
-        'usemin'
+        'usemin',
+        'replace:dist',
+        'compress:dist'
     ]);
 
     grunt.registerTask('default', [
