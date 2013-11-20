@@ -7,3 +7,4 @@ app/bower_components
 .DS_Store
 builds/
 docs/
+coverage/

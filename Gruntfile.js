@@ -6,29 +6,22 @@ var mountFolder = function (connect, dir) {
     return connect.static(require('path').resolve(dir));
 };
 
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to match all subfolders:
-// 'test/spec/**/*.js'
-// templateFramework: 'lodash'
-
 module.exports = function (grunt) {
     // load all grunt tasks
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     // configurable paths
-    var yeomanConfig = {
+    var confitureConfig = {
         app: 'app',
         dist: 'dist',
         tmp: '.tmp'
     };
 
     grunt.initConfig({
-        yeoman: yeomanConfig,
+        confiture: confitureConfig,
         watch: {
             coffee: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.coffee'],
+                files: ['<%= confiture.app %>/scripts/{,*/}*.coffee'],
                 tasks: ['coffee:dist']
             },
             coffeeTest: {
@@ -36,21 +29,21 @@ module.exports = function (grunt) {
                 tasks: ['coffee:test']
             },
             compass: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+                files: ['<%= confiture.app %>/styles/{,*/}*.{scss,sass}'],
                 tasks: ['compass']
             },
             livereload: {
                 files: [
-                    '<%= yeoman.app %>/*.html',
-                    '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
-                    '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}'
+                    '<%= confiture.app %>/*.html',
+                    '{.tmp,<%= confiture.app %>}/styles/{,*/}*.css',
+                    '{.tmp,<%= confiture.app %>}/scripts/{,*/}*.js',
+                    '<%= confiture.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}'
                 ],
                 tasks: ['livereload']
             },
             jst: {
                 files: [
-                    '<%= yeoman.app %>/scripts/templates/*.ejs'
+                    '<%= confiture.app %>/scripts/templates/*.html'
                 ],
                 tasks: ['jst']
             }
@@ -113,7 +106,7 @@ module.exports = function (grunt) {
         clean: {
             docs: ['docs/*'],
             builds: ['builds/*'],
-            dist: ['.tmp', '<%= yeoman.dist %>/*'],
+            dist: ['.tmp', '<%= confiture.dist %>/*'],
             server: '.tmp'
         },
         jshint: {
@@ -122,8 +115,8 @@ module.exports = function (grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= yeoman.app %>/scripts/{,*/}*.js',
-                '!<%= yeoman.app %>/scripts/vendor/*',
+                '<%= confiture.app %>/scripts/{,*/}*.js',
+                '!<%= confiture.app %>/scripts/vendor/*',
                 'test/spec/{,*/}*.js'
             ]
         },
@@ -133,7 +126,7 @@ module.exports = function (grunt) {
                     // rather than compiling multiple files here you should
                     // require them into your main .coffee file
                     expand: true,
-                    cwd: '<%= yeoman.app %>/scripts',
+                    cwd: '<%= confiture.app %>/scripts',
                     src: '*.coffee',
                     dest: '.tmp/scripts',
                     ext: '.js'
@@ -150,11 +143,11 @@ module.exports = function (grunt) {
         },
         compass: {
             options: {
-                sassDir: '<%= yeoman.app %>/styles',
+                sassDir: '<%= confiture.app %>/styles',
                 cssDir: '.tmp/styles',
-                imagesDir: '<%= yeoman.app %>/images',
-                javascriptsDir: '<%= yeoman.app %>/scripts',
-                fontsDir: '<%= yeoman.app %>/styles/fonts',
+                imagesDir: '<%= confiture.app %>/images',
+                javascriptsDir: '<%= confiture.app %>/scripts',
+                fontsDir: '<%= confiture.app %>/styles/fonts',
                 importPath: 'app/bower_components',
                 relativeAssets: true
             },
@@ -181,7 +174,7 @@ module.exports = function (grunt) {
                     insertRequire: ['main'],
                     mainConfigFile: 'app/scripts/main.js',
                     // TODO: Figure out how to make sourcemaps work with grunt-usemin
-                    // https://github.com/yeoman/grunt-usemin/issues/30
+                    // https://github.com/confiture/grunt-usemin/issues/30
                     //generateSourceMaps: true,
                     // required to support SourceMaps
                     // http://requirejs.org/docs/errors.html#sourcemapcomments
@@ -193,34 +186,34 @@ module.exports = function (grunt) {
             }
         },
         useminPrepare: {
-            html: '<%= yeoman.app %>/index.html',
+            html: '<%= confiture.app %>/index.html',
             options: {
-                dest: '<%= yeoman.dist %>'
+                dest: '<%= confiture.dist %>'
             }
         },
         usemin: {
-            html: ['<%= yeoman.dist %>/{,*/}*.html'],
-            css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+            html: ['<%= confiture.dist %>/{,*/}*.html'],
+            css: ['<%= confiture.dist %>/styles/{,*/}*.css'],
             options: {
-                dirs: ['<%= yeoman.dist %>']
+                dirs: ['<%= confiture.dist %>']
             }
         },
         imagemin: {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%= yeoman.app %>/images',
+                    cwd: '<%= confiture.app %>/images',
                     src: '{,*/}*.{png,jpg,jpeg}',
-                    dest: '<%= yeoman.dist %>/images'
+                    dest: '<%= confiture.dist %>/images'
                 }]
             }
         },
         cssmin: {
             dist: {
                 files: {
-                    '<%= yeoman.dist %>/styles/main.css': [
+                    '<%= confiture.dist %>/styles/main.css': [
                         '.tmp/styles/{,*/}*.css',
-                        '<%= yeoman.app %>/styles/{,*/}*.css'
+                        '<%= confiture.app %>/styles/{,*/}*.css'
                     ]
                 }
             }
@@ -229,7 +222,7 @@ module.exports = function (grunt) {
             dist: {
                 options: {
                     /*removeCommentsFromCDATA: true,
-                    // https://github.com/yeoman/grunt-usemin/issues/44
+                    // https://github.com/confiture/grunt-usemin/issues/44
                     //collapseWhitespace: true,
                     collapseBooleanAttributes: true,
                     removeAttributeQuotes: true,
@@ -240,9 +233,9 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= yeoman.app %>',
+                    cwd: '<%= confiture.app %>',
                     src: '*.html',
-                    dest: '<%= yeoman.dist %>'
+                    dest: '<%= confiture.dist %>'
                 }]
             }
         },
@@ -251,8 +244,8 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: '<%= yeoman.app %>',
-                    dest: '<%= yeoman.dist %>',
+                    cwd: '<%= confiture.app %>',
+                    dest: '<%= confiture.dist %>',
                     src: [
                         '*.{ico,txt}',
                         '.htaccess',
@@ -263,7 +256,7 @@ module.exports = function (grunt) {
         },
         bower: {
             all: {
-                rjsConfig: '<%= yeoman.app %>/scripts/main.js'
+                rjsConfig: '<%= confiture.app %>/scripts/main.js'
             }
         },
         jst: {
@@ -272,7 +265,7 @@ module.exports = function (grunt) {
             },
             compile: {
                 files: {
-                    '.tmp/scripts/templates.js': ['<%= yeoman.app %>/templates/*.html']
+                    '.tmp/scripts/templates.js': ['<%= confiture.app %>/templates/*.html']
                 }
             }
         },
@@ -297,7 +290,7 @@ module.exports = function (grunt) {
                     prefix: '//@@'
                 },
                 files: {
-                    '<%= yeoman.tmp %>/scripts/main.js': ['<%= yeoman.app %>/scripts/main.js']
+                    '<%= confiture.tmp %>/scripts/main.js': ['<%= confiture.app %>/scripts/main.js']
                 }
             },
             dist: {
@@ -311,14 +304,14 @@ module.exports = function (grunt) {
                       prefix: '<!-- @@Replace that by almond main script -->'
                 },
                 files: [
-                  {expand: true, flatten: true, src: ['<%= yeoman.dist %>/index.html'], dest: '<%= yeoman.dist %>'}
+                  {expand: true, flatten: true, src: ['<%= confiture.dist %>/index.html'], dest: '<%= confiture.dist %>'}
                 ]
             }
         },
         jscover: {
             options: {
-                inputDirectory: '<%= yeoman.tmp %>/clean_scripts',
-                outputDirectory: '<%= yeoman.tmp%>/scripts'
+                inputDirectory: '<%= confiture.tmp %>/clean_scripts',
+                outputDirectory: '<%= confiture.tmp%>/scripts'
             }
         },
         removelogging: {
@@ -326,9 +319,9 @@ module.exports = function (grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= yeoman.app%>/scripts',
+                        cwd: '<%= confiture.app%>/scripts',
                         src: ['**/*.js'],
-                        dest: '<%= yeoman.tmp %>/clean_scripts'
+                        dest: '<%= confiture.tmp %>/clean_scripts'
                     }
                 ]
             }
@@ -351,7 +344,7 @@ module.exports = function (grunt) {
             coverage: {
                 options: {
                     reporter: 'json-cov',
-                    output: 'builds/coverage-result.json',
+                    output: 'coverage/coverage-result.json',
                     log: false,
                     urls: ['http://localhost:<%= connect.options.port %>/index.html']
                 }
@@ -370,7 +363,7 @@ module.exports = function (grunt) {
                 mode: 'zip'
               },
               files: [
-                {expand: true, cwd: '<%= yeoman.dist %>', src: ['**'], dest: ''}
+                {expand: true, cwd: '<%= confiture.dist %>', src: ['**'], dest: ''}
               ]
             }
         },
@@ -381,8 +374,8 @@ module.exports = function (grunt) {
              dist: {
                   expand: true,
                   flatten: true,
-                  src: '<%= yeoman.dist %>/styles/main.css', // -> src/css/file1.css, src/css/file2.css
-                  dest: '<%= yeoman.dist %>/styles' // -> dest/css/file1.css, dest/css/file2.css
+                  src: '<%= confiture.dist %>/styles/main.css', // -> src/css/file1.css, src/css/file2.css
+                  dest: '<%= confiture.dist %>/styles' // -> dest/css/file1.css, dest/css/file2.css
             }
         }
     });
